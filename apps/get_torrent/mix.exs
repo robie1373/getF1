@@ -6,13 +6,18 @@ defmodule GetTorrent.Mixfile do
       version: "0.0.1",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 0.11.1",
+      elixir: "~> 0.12.0",
+      escript_main_module: GetTorrent.PirateBaySearch,
+      name: GetTorrent,
       deps: deps ]
   end
 
   # Configuration for the OTP application
   def application do
-    [mod: { GetTorrent, [] }]
+    [
+      mod:                { GetTorrent, [] },
+      applications:       [ :httpotion ]
+    ]
   end
 
   # Returns the list of dependencies in the format:
@@ -24,6 +29,10 @@ defmodule GetTorrent.Mixfile do
   # You can depend on another app in the same umbrella with:
   # { :other, in_umbrella: true }
   defp deps do
-    []
+    [
+      {:httpotion,"0.2.3",[github: "myfreeweb/httpotion"]},
+      {:jsonex,"2.0",[github: "marcelog/jsonex", tag: "2.0"]},
+      { :ex_doc, github: "elixir-lang/ex_doc" }
+    ]
   end
 end
