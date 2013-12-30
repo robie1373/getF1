@@ -1,51 +1,55 @@
 ExUnit.start
 defmodule GetTorrent.HelperFunctions do
+  use ExUnit.Case, async: true
 
-  import GetTorrent.PirateBaySearch, only: [
-                                      query: 1,
-                                      pirate_url: 1,
-                                      fetch: 1,
-                                      default_criteria: 0
-                                    ]
-  import GetTorrent.PirateBayDecode, only: [decode_response: 1, 
-                                            to_torrent_record: 1
-                                          ]
+  import GetTorrent.CacheSearch, only: [
+    setup: 0,
+    cache_search: 0,
+    get_record: 1,
+    teardown: 1
+  ]                                          
+
+  # import GetTorrent.PirateBaySearch, only: [
+  #                                     query: 1,
+  #                                     pirate_url: 1,
+  #                                     fetch: 1,
+  #                                     default_criteria: 0
+  #                                   ]
+  # import GetTorrent.PirateBayDecode, only: [decode_response: 1, 
+  #                                           to_torrent_record: 1
+  #                                         ]
 
   @query_term "formula 1 2013"
 
-  # def cached_result do
-  #   File.read("#{__DIR__}/cached_search.txt")
+  setup_all do
+    setup
+    {:ok, id} = cache_search
+    # IO.puts("in setup_all record looks like:\n#{inspect(get_record(id))}")
+    {:ok, cached_result: get_record(id)}
+  end
+
+  teardown_all do
+    GetTorrent.CacheSearch.teardown(:cached_searches)
+    :ok
+  end
+
+  # def decoded_result do
+  #   meta[:cached_result]
+  #   |> decode_response
+  #   |> to_torrent_record
   # end
 
- # def cache_search do
- #    default_criteria()
- #      |> pirate_url
- #      |> fetch
-      # File.write(@path, result, :write)
+  # def make_list_of_uploaders([ [], accum]) do
+  #   accum
   # end
-
-# cached_search = cache_search
-
-  def decoded_result do
-    # cached_search
-    default_criteria
-    |> pirate_url
-    |> fetch
-    |> decode_response
-    |> to_torrent_record
-  end
-
-  def make_list_of_uploaders([ [], accum]) do
-    accum
-  end
   
-  def make_list_of_uploaders([ [head | tail], accum ]) do
-    make_list_of_uploaders([tail, [head["uploader"] | accum]])
-  end
+  # def make_list_of_uploaders([ [head | tail], accum ]) do
+  #   make_list_of_uploaders([tail, [head["uploader"] | accum]])
+  # end
   
-  def make_list_of_uploaders(list) do
-    make_list_of_uploaders([list, [] ])
-  end
+  # def make_list_of_uploaders(list) do
+  #   make_list_of_uploaders([list, [] ])
+  # end
 
 
 end
