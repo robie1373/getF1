@@ -1,7 +1,7 @@
 defmodule PirateBaySortTest do
   use ExUnit.Case
 
-  import GetTorrent.HelperFunctions
+  # import GetTorrent.HelperFunctions
   import GetTorrent.PirateBayFilter, only: [
                                             filter_results: 1
   ]
@@ -64,6 +64,24 @@ defmodule PirateBaySortTest do
     do_check_sorting([tail, accum && true])
   end
 
+  # @six_gb_rank HashDict.get(ranks, "6gb")
+  # defp do_check_sorting([[Torrent_Result[
+  #   bsize: bsize, rank: rank] | tail], accum]) when bsize > 6_000_000_000 && rank == @six_gb_rank do
+  #   do_check_sorting([tail, accum && true])
+  # end
+  
+  # @three_gb_rank HashDict.get(ranks, "3gb")
+  # defp do_check_sorting([[Torrent_Result[
+  #   bsize: bsize, rank: rank] | tail], accum]) when bsize > 3_000_000_000 && rank == @three_gb_rank do
+  #   do_check_sorting([tail, accum && true])
+  # end
+
+  # @one_gb_rank HashDict.get(ranks, "1gb")
+  # defp do_check_sorting([[Torrent_Result[
+  #   bsize: bsize, rank: rank] | tail], accum]) when bsize > 1_000_000_000 && rank == @one_gb_rank do
+  #   do_check_sorting([tail, accum && true])
+  # end
+
   defp do_check_sorting([[ _ | tail], accum]) do
     do_check_sorting([tail, accum && false])
   end
@@ -94,4 +112,16 @@ defmodule PirateBaySortTest do
     assert new_record.rank == initial_rank + 2
   end
 
+  test "rank size", meta do
+    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
+
+    decoded_result = {:ok, result}
+    |> decode_response
+    |> to_torrent_record
+    
+    assert decoded_result
+    |> filter_results
+    |> sort_results
+    |> check_sorting, "rank up failed to match expected. it is possible that the values in @ranks has changed but the tests were not updated."
+  end
 end

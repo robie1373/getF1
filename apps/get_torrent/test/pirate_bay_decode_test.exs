@@ -5,7 +5,7 @@ defmodule PirateBayDecodeTest do
                                       to_torrent_record: 1
                                       ]
 
-  import GetTorrent.HelperFunctions
+  # import GetTorrent.HelperFunctions
 
 ########### temp test #############
 import GetTorrent.CacheSearch, only: [
@@ -35,8 +35,19 @@ end
     decoded_result = {:ok, result}
     |> decode_response
     |> to_torrent_record
-    # {:ok, result} = meta[:cached_result]
+
     assert List.last(decoded_result).id 
+  end
+
+  test "byte_size gets updated", meta do
+    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
+
+    decoded_result = {:ok, result}
+    |> decode_response
+    |> to_torrent_record
+
+    assert List.last(decoded_result.byte_size) > 0, "byte_size was not incremented"
+    assert is_integer(List.last(decoded_result.byte_size)), "byte_size is not an int"
   end
 
 ###############

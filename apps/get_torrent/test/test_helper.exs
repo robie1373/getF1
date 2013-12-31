@@ -2,12 +2,12 @@ ExUnit.start
 defmodule GetTorrent.HelperFunctions do
   use ExUnit.Case, async: true
 
-  import GetTorrent.CacheSearch, only: [
-    setup: 0,
-    cache_search: 0,
-    get_record: 1,
-    teardown: 1
-  ]                                          
+  # import GetTorrent.CacheSearch, only: [
+  #   setup: 0,
+  #   cache_search: 0,
+  #   get_record: 1,
+  #   teardown: 1
+  # ]                                          
 
   # import GetTorrent.PirateBaySearch, only: [
   #                                     query: 1,
@@ -21,17 +21,24 @@ defmodule GetTorrent.HelperFunctions do
 
   @query_term "formula 1 2013"
 
-  setup_all do
-    setup
-    {:ok, id} = cache_search
-    # IO.puts("in setup_all record looks like:\n#{inspect(get_record(id))}")
-    {:ok, cached_result: get_record(id)}
-  end
+ import GetTorrent.CacheSearch, only: [
+  setup: 0,
+  cache_search: 0,
+  get_record: 1
+] 
 
-  teardown_all do
-    GetTorrent.CacheSearch.teardown(:cached_searches)
-    :ok
-  end
+setup_all do
+  setup
+  {:ok, id}     = cache_search
+  {:ok, result} = get_record(id)
+
+  {:ok, cached_result: result}
+end
+
+teardown_all do
+  GetTorrent.CacheSearch.teardown(:cached_searches)
+  :ok
+end
 
   # def decoded_result do
   #   meta[:cached_result]

@@ -8,7 +8,7 @@ defmodule PirateBayFilterTest do
     to_torrent_record: 1,
     decode_response: 1
   ]
-  import GetTorrent.HelperFunctions
+  # import GetTorrent.HelperFunctions
 
   ########### temp test #############
   import GetTorrent.CacheSearch, only: [

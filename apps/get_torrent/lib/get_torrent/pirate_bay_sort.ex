@@ -1,7 +1,8 @@
 defmodule GetTorrent.PirateBaySort do
 
   def ranks do 
-    HashDict.new [{"footy", 2}, {"tonyisaac", 3}] 
+    HashDict.new [{"footy", 2}, {"tonyisaac", 3}, 
+                  {"6gb", 4}, {"3gb", 3}, {"1gb", 1}] 
   end
 
   def sort_results(list_of_results) do
