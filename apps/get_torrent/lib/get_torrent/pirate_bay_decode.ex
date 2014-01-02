@@ -13,9 +13,17 @@ defmodule GetTorrent.PirateBayDecode do
     binary_to_float(num) * exponents[binary_to_atom(exp)]
   end
   
+  def enhance_record(list) do
+    # IO.puts "where is true coming from?: \n#{inspect list}"
+    list
+    |> Enum.map(fn(x) -> x ++ [rank: 0, byte_size: 0] end)
+  end
+
   def to_torrent_record(list) do
-    IO.puts "x is a list #{is_list List.last(list)}"
-    Enum.map(list, fn(x) -> Torrent_Result.new(x) end)
+    # IO.puts "x is a list #{is_list List.last(list)}"
+    list 
+    |> enhance_record
+    |> Enum.map( fn(x) -> Torrent_Result.new(x) end)
     # Enum.map(list, fn(x) -> x.update_byte_size(set_byte_size(x)) end)
     
     # [binary_to_float(num) * exponents[binary_to_atom(exp)]]

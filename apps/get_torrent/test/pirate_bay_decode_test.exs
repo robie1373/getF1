@@ -7,7 +7,7 @@ defmodule PirateBayDecodeTest do
 
   # import GetTorrent.HelperFunctions
 
-########### temp test #############
+############## temp test ################
 import GetTorrent.CacheSearch, only: [
   setup: 0,
   cache_search: 0,
@@ -15,18 +15,23 @@ import GetTorrent.CacheSearch, only: [
 ] 
 
 setup_all do
-  setup
+  try do
+    setup
+  rescue
+    _error -> _error
+  end
+
   {:ok, id}     = cache_search
   {:ok, result} = get_record(id)
 
   {:ok, cached_result: result}
 end
 
-teardown_all do
-  GetTorrent.CacheSearch.teardown(:cached_searches)
-  :ok
-end
-###################################
+# teardown_all do
+#   GetTorrent.CacheSearch.teardown(:cached_searches)
+#   :ok
+# end
+#########################################
  
   test "decode the body", meta do
     # record = List.last(decoded_result)
@@ -39,15 +44,45 @@ end
     assert List.last(decoded_result).id 
   end
 
-  test "byte_size gets updated", meta do
+  def test_byte_size([head|_tail]) do
+    IO.puts("true: #{inspect(head)}")
+    # if head.byte_size > 0 do
+    if head.byte_size > 0 do
+      true
+    else
+      IO.puts("false: #{inspect(head)}")
+      false
+    end
+  end
+
+  def test_byte_size_type([head|_tail]) do
+    if is_integer(head) do
+      true
+    else
+      false
+    end
+  end
+
+  test "byte_size gets updated, > 0", meta do
     CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
 
     decoded_result = {:ok, result}
     |> decode_response
     |> to_torrent_record
 
-    assert List.last(decoded_result.byte_size) > 0, "byte_size was not incremented"
-    assert is_integer(List.last(decoded_result.byte_size)), "byte_size is not an int"
+    assert decoded_result 
+    |> test_byte_size, "byte_size was not > 0"
+  end
+
+  test "byte_size gets updated, is_integer", meta do
+    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
+
+    decoded_result = {:ok, result}
+    |> decode_response
+    |> to_torrent_record
+
+    assert decoded_result
+    |> test_byte_size_type, "byte_size is not an integer"
   end
 
 ###############

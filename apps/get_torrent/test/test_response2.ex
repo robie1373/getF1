@@ -273,13 +273,6 @@
 {"size", "1.61 GiB"},
 {"seeders", 9},
 {"leechers", 0},
-{"trusted", true}], [{"id", 9212428},
-{"name", "Formula 1 2013 United States Qualifying + Race 720p HD 50fps"},
-{"category", "HD - TV shows"},
-{"magnet", "magnet:?xt=urn:btih:760e355c4282923f66c6332c8d65f50b7d896104&dn=Formula+1+2013+United+States+Qualifying+%2B+Race+720p+HD+50fps&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337"},
-{"uploaded", "11-18 22:21"},
-{"uploader", "footy"},
-{"size", "18.8 GiB"},
-{"seeders", 9},
-{"leechers", 8},
-{"trusted", true}]]
+{"trusted", true}], 
+
+[{"id", 9212428},{"name", "Formula 1 2013 United States Qualifying + Race 720p HD 50fps"},{"category", "HD - TV shows"},{"magnet", "magnet:?xt=urn:btih:760e355c4282923f66c6332c8d65f50b7d896104&dn=Formula+1+2013+United+States+Qualifying+%2B+Race+720p+HD+50fps&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337"},{"uploaded", "11-18 22:21"},{"uploader", "footy"},{"size", "18.8 GiB"},{"seeders", 9},{"leechers", 8},{"trusted", true}]]
