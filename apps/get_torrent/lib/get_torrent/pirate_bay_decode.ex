@@ -7,10 +7,14 @@ defmodule GetTorrent.PirateBayDecode do
     System.halt(2)
   end
 
-  def set_byte_size(record) do
-    exponents = ["GiB": 1_000_000_000, "MiB": 1_000_000, "KiB": 1_000_000]
+  def set_byte_size(record=Torrent_Result[]) do
     [num, exp] = String.split(record.size)
-    binary_to_float(num) * exponents[binary_to_atom(exp)]
+    set_byte_size(num, exp, record)
+  end
+
+  def set_byte_size(num, exp, record) do
+    exponents = ["GiB": 1_000_000_000, "MiB": 1_000_000, "KiB": 1_000_000]
+    record.update(byte_size: binary_to_float(num) * exponents[binary_to_atom(exp)])
   end
   
   def enhance_record(list) do
@@ -24,10 +28,19 @@ defmodule GetTorrent.PirateBayDecode do
     list 
     |> enhance_record
     |> Enum.map( fn(x) -> Torrent_Result.new(x) end)
+    |> Enum.map( fn(x) -> set_byte_size(x) end)
     # Enum.map(list, fn(x) -> x.update_byte_size(set_byte_size(x)) end)
     
     # [binary_to_float(num) * exponents[binary_to_atom(exp)]]
     # Enum.map(list, fn(x) -> x.bsize end)
   end
-  
+
+  @doc """
+  how does the updating of the byte_size field work?
+  list of lists comes back from search
+  |> rank and byte_size fields get added to lists
+  |> lists converted to list of records
+  |> list of records mapped with function that decodes the byte_size AND updates the property
+  ???????
+  """
 end

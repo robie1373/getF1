@@ -44,23 +44,35 @@ end
     assert List.last(decoded_result).id 
   end
 
-  def test_byte_size([head|_tail]) do
-    IO.puts("true: #{inspect(head)}")
-    # if head.byte_size > 0 do
+  def test_byte_size([head=Torrent_Result[]|_tail]) do
+    # IO.puts("true: #{inspect(head)}")
+    # IO.puts("true also: #{inspect(head.byte_size)}")
     if head.byte_size > 0 do
       true
     else
-      IO.puts("false: #{inspect(head)}")
+      # IO.puts("false: #{inspect(head)}")
       false
     end
   end
 
-  def test_byte_size_type([head|_tail]) do
-    if is_integer(head) do
+  def test_byte_size(input) do
+    IO.puts "Not very serious Failure: #{inspect(Enum.first(input))} is not a Torrent_Result"
+    false
+  end
+
+
+  def test_byte_size_type([head=Torrent_Result[]|_tail]) do
+    # IO.puts("byte_size is a float?\n-=-=-=-=-\n#{inspect(head.byte_size)}\n=-=--=-=-=-=-\n")
+    if is_float(head.byte_size) do
       true
     else
       false
     end
+  end
+
+  def test_byte_size_type(input) do
+    IO.puts "Not very serious Failure: #{inspect(Enum.first(input))} is not a Torrent_Result"
+    false
   end
 
   test "byte_size gets updated, > 0", meta do
@@ -74,7 +86,7 @@ end
     |> test_byte_size, "byte_size was not > 0"
   end
 
-  test "byte_size gets updated, is_integer", meta do
+  test "byte_size gets updated, is_float", meta do
     CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
 
     decoded_result = {:ok, result}
@@ -82,7 +94,7 @@ end
     |> to_torrent_record
 
     assert decoded_result
-    |> test_byte_size_type, "byte_size is not an integer"
+    |> test_byte_size_type, "byte_size is not an float"
   end
 
 ###############
