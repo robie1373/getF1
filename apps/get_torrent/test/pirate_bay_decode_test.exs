@@ -1,4 +1,5 @@
 defmodule PirateBayDecodeTest do
+  # use ExUnit.Case, async: true
   use ExUnit.Case
   import GetTorrent.PirateBayDecode, only: [
                                       decode_response: 1,
@@ -34,7 +35,6 @@ end
 #########################################
  
   test "decode the body", meta do
-    # record = List.last(decoded_result)
     CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
 
     decoded_result = {:ok, result}
@@ -45,24 +45,20 @@ end
   end
 
   def test_byte_size([head=Torrent_Result[]|_tail]) do
-    # IO.puts("true: #{inspect(head)}")
-    # IO.puts("true also: #{inspect(head.byte_size)}")
     if head.byte_size > 0 do
       true
     else
-      # IO.puts("false: #{inspect(head)}")
       false
     end
   end
 
-  def test_byte_size(input) do
-    IO.puts "Not very serious Failure: #{inspect(Enum.first(input))} is not a Torrent_Result"
+  def test_byte_size(_input) do
+    # IO.puts "\nNot very serious Failure: #{inspect(Enum.first(input))} is not a Torrent_Result"
     false
   end
 
 
   def test_byte_size_type([head=Torrent_Result[]|_tail]) do
-    # IO.puts("byte_size is a float?\n-=-=-=-=-\n#{inspect(head.byte_size)}\n=-=--=-=-=-=-\n")
     if is_float(head.byte_size) do
       true
     else
@@ -70,8 +66,8 @@ end
     end
   end
 
-  def test_byte_size_type(input) do
-    IO.puts "Not very serious Failure: #{inspect(Enum.first(input))} is not a Torrent_Result"
+  def test_byte_size_type(_input) do
+    # IO.puts "\nNot very serious Failure: #{inspect(Enum.first(input))} is not a Torrent_Result"
     false
   end
 
@@ -97,17 +93,8 @@ end
     |> test_byte_size_type, "byte_size is not an float"
   end
 
-###############
-# CacheSearchRecord[search_id: 435942, result: {:ok, "[{\"id\":8997672,\"name\""
-###################
   test "convert to records", meta do
-    # assert decoded_result 
-    ## try using the record matching pattern stuff from the book
-    ## to match the CacheSearchRecord above. You just need to 
-    ## extract the CacheSearchRecord[:result]
     CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
-    # IO.puts "the meta result looks like :\n#{(is_binary result)}"
-    # assert meta[:cached_result]
     assert {:ok, result}
     |> decode_response
     |> to_torrent_record
