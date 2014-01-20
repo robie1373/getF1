@@ -22,29 +22,23 @@ defmodule GetTorrent.CacheSearch do
     elem(:os.timestamp, 1)
   end
 
-  def run_search do
+  def run_online_search do
    default_criteria()
     |> pirate_url
     |> fetch
   end
 
   def cache_search do
-    do_cache_search(run_search)
+    do_cache_search(run_online_search)
   end
 
   defp do_cache_search(result = {:ok, _ }) do
-    # result = default_criteria()
-    #   |> pirate_url
-    #   |> fetch
-      new_id = create_id
-      :ets.insert(
-        :cached_searches, 
-        CacheSearchRecord.new([search_id: new_id, result: result])
-        )
-      {:ok, new_id}
-      # |> inspect
-      # |> IO.puts
-      # File.write(@path, result, :write)
+    new_id = create_id
+    :ets.insert(
+      :cached_searches, 
+      CacheSearchRecord.new([search_id: new_id, result: result])
+      )
+    {:ok, new_id}
   end
 
   defp do_cache_search({:error, err}) do

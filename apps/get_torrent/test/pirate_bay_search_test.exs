@@ -7,7 +7,7 @@ defmodule PirateBaySearchTest do
                                       pirate_url: 1,
                                       fetch: 1
                                     ]
-  import GetTorrent.PirateBayDecode, only: [decode_response: 1]                                    
+  # import GetTorrent.PirateBayDecode, only: [decode_response: 1]                                    
 
   @api_key "0ba7e46015584148b0755fb0b4af9483"
   @query_term "formula 1 2013"
@@ -31,14 +31,6 @@ defmodule PirateBaySearchTest do
     assert(test_result(fetch(@test_url)))
     
   end
-
- 
-  def decoded_result do
-    pirate_url([ query_term: @query_term ])
-    |> fetch
-    |> decode_response
-  end
-
 
   
 @doc """

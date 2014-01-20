@@ -1,10 +1,9 @@
 defmodule PirateBaySortTest do
   use ExUnit.Case, async: true
 
-  import GetTorrent.TestCache
-  import GetTorrent.PirateBayFilter, only: [
-                                            filter_results: 1
-  ]
+  # import GetTorrent.TestCache
+  import GetTorrent.HelperFunctions
+  # import GetTorrent.PirateBayFilter, only: [filter_results: 1]
 
   import GetTorrent.PirateBaySort, only: [
                                           sort_results: 1,

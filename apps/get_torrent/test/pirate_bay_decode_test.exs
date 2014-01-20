@@ -1,6 +1,6 @@
 defmodule PirateBayDecodeTest do
   use ExUnit.Case, async: true
-  # use ExUnit.Case
+ 
   import GetTorrent.PirateBayDecode, only: [
                                       decode_response: 1,
                                       to_torrent_record: 1
@@ -8,11 +8,8 @@ defmodule PirateBayDecodeTest do
 
   import GetTorrent.TestCache
 
-  c_record = hd(:ets.lookup(:cached_searches, record_id))
-  @c_result c_record.result
-
   test "decode the body" do
-    decoded_result = @c_result
+    decoded_result = c_result
     |> decode_response
     |> to_torrent_record
 
@@ -32,7 +29,6 @@ defmodule PirateBayDecodeTest do
     false
   end
 
-
   def test_byte_size_type([head=Torrent_Result[]|_tail]) do
     if is_float(head.byte_size) do
       true
@@ -47,7 +43,7 @@ defmodule PirateBayDecodeTest do
   end
 
   test "byte_size gets updated, > 0" do
-    decoded_result = @c_result
+    decoded_result = c_result
     |> decode_response
     |> to_torrent_record
 
@@ -56,7 +52,7 @@ defmodule PirateBayDecodeTest do
   end
 
   test "byte_size gets updated, is_float" do
-    decoded_result = @c_result
+    decoded_result = c_result
     |> decode_response
     |> to_torrent_record
 
@@ -65,7 +61,7 @@ defmodule PirateBayDecodeTest do
   end
 
   test "convert to records" do
-    assert @c_result
+    assert c_result
     |> decode_response
     |> to_torrent_record
     |> Enum.all?( fn(x) -> is_record(x, Torrent_Result) end)

@@ -1,6 +1,10 @@
 defmodule GetTorrent.PirateBaySearch do
   alias HTTPotion.Response
-  import GetTorrent.PirateBayDecode, only: [decode_response: 1, to_torrent_record: 1]
+  
+  import GetTorrent.PirateBayDecode,  only: [decode_response: 1, to_torrent_record: 1]
+  import GetTorrent.PirateBayFilter,  only: [filter_results: 1]
+  import GetTorrent.PirateBaySort,    only: [sort_results: 1]
+  import GetTorrent.DisplayCli,       only: [print_cli: 1]
 
   @base_url   "http://apify.ifc0nfig.com"
   # @categories [ video: 200, audio: 100, applications: 300, games: 400, other: 600 ]
@@ -16,16 +20,18 @@ defmodule GetTorrent.PirateBaySearch do
   @user_agent [ "User-agent": "Bonzer foo@bar.baz" ]
 
   def default_criteria do
-    [query_term: "formula 1 2013", 
-    page: 0, ordering: 99, category: 200]
+    [query_term: "formula 1 2013", page: 0, ordering: 99, category: 200]
   end
 
-  def main() do
+  def main(_argv) do
     default_criteria()
       |> pirate_url
       |> fetch
       |> decode_response
       |> to_torrent_record
+      |> filter_results
+      |> sort_results
+      |> print_cli
   end
 
   def pirate_url( search_criteria ) do

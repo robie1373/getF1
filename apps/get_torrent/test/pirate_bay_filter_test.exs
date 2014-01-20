@@ -1,5 +1,6 @@
 defmodule PirateBayFilterTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+  
   import GetTorrent.PirateBayFilter, only: [
                                       filter_results: 1
                                       ]
@@ -11,8 +12,6 @@ defmodule PirateBayFilterTest do
   import GetTorrent.TestCache
 
   test "filter responses to videos only" do
-    c_record = hd(:ets.lookup(:cached_searches, record_id))
-    c_result = c_record.result
 
     decoded_result = c_result
     |> decode_response

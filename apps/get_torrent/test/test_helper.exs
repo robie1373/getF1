@@ -1,19 +1,8 @@
 ExUnit.start
-defmodule GetTorrent.HelperFunctions do
-  # IO.puts "this is helper"
-end
+
 
 defmodule GetTorrent.TestCache do
   import GetTorrent.CacheSearch, only: [setup: 0, cache_search: 0]
-
-  import GetTorrent.PirateBayDecode, only: [
-    decode_response: 1,
-    to_torrent_record: 1
-  ]
-
-  import GetTorrent.PirateBayFilter, only: [filter_results: 1]
-
-  import GetTorrent.PirateBaySort, only: [sort_results: 1]
 
   try do
     setup
@@ -32,6 +21,20 @@ defmodule GetTorrent.TestCache do
     c_record = hd(:ets.lookup(:cached_searches, record_id))
     c_record.result
   end
+end
+
+
+defmodule GetTorrent.HelperFunctions do
+  import GetTorrent.TestCache, only: [c_result: 0]
+
+  import GetTorrent.PirateBayDecode, only: [
+  decode_response: 1,
+  to_torrent_record: 1
+  ]
+
+  import GetTorrent.PirateBayFilter, only: [filter_results: 1]
+
+  import GetTorrent.PirateBaySort, only: [sort_results: 1]
 
   def decoded_result do
     c_result
@@ -44,5 +47,6 @@ defmodule GetTorrent.TestCache do
     |> filter_results
     |> sort_results
   end
-  
 end
+
+
