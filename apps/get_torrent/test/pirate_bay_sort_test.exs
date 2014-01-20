@@ -12,19 +12,16 @@ defmodule PirateBaySortTest do
                                           ranks: 0
   ]
 
-  import GetTorrent.PirateBayDecode, only: [
-    decode_response: 1,
-    to_torrent_record: 1
-  ]
+  # import GetTorrent.PirateBayDecode, only: [
+  #   decode_response: 1,
+  #   to_torrent_record: 1
+  # ]
  
-  c_record = hd(:ets.lookup(:cached_searches, record_id))
-  @c_result c_record.result
-
   def check_sorting(list) do
     do_check_sorting([list, true])
   end
 
-  defp do_check_sorting([[], accum]) do
+  defp do_check_sorting([ [], accum]) do
     accum
   end
 
@@ -68,21 +65,11 @@ defmodule PirateBaySortTest do
   end
 
   test "rank_uploaders" do
-    decoded_result = @c_result
-    |> decode_response
-    |> to_torrent_record
-
-    assert decoded_result 
-    |> filter_results 
-    |> sort_results
+    assert processed_result
     |> check_sorting, "rank up failed to match expected. it is possible that the values in @ranks has changed but the tests were not updated."
   end
 
   test "rank up a record" do
-    decoded_result = @c_result
-    |> decode_response
-    |> to_torrent_record
-
     record = List.last(decoded_result)
     initial_rank = record.rank
     new_record = change_rank(record, 2)
@@ -90,13 +77,7 @@ defmodule PirateBaySortTest do
   end
 
   test "rank size" do
-    decoded_result = @c_result
-    |> decode_response
-    |> to_torrent_record
-    
-    assert decoded_result
-    |> filter_results
-    |> sort_results
+    assert processed_result
     |> check_sorting, "rank up failed to match expected. it is possible that the values in @ranks has changed but the tests were not updated."
   end
 end
