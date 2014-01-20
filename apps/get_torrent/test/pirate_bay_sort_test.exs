@@ -19,24 +19,24 @@ defmodule PirateBaySortTest do
   # ft = Torrent_Result[id: 8894478, name: "Formula 1 2013 R12 Italian Grand Prix Race BBC", category: "TV shows", magnet: "magnet:?xt=urn:btih:457bc4f687026ea5fd821029ee2cf4d646c23bb9&dn=Formula+1+2013+R12+Italian+Grand+Prix+Race+BBC&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A6969&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337", uploaded: "09-08 19:18", uploader: "footy", size: "1.59 GiB", seeders: 16, leechers: 8, trusted: true, rank: 0]
 
   ########### temp test #############
-  import GetTorrent.CacheSearch, only: [
-    setup: 0,
-    cache_search: 0,
-    get_record: 1
-  ] 
+  # import GetTorrent.CacheSearch, only: [
+  #   setup: 0,
+  #   cache_search: 0,
+  #   get_record: 1
+  # ] 
 
-  setup_all do
-    setup
-    {:ok, id}     = cache_search
-    {:ok, result} = get_record(id)
+  # setup_all do
+  #   setup
+  #   {:ok, id}     = cache_search
+  #   {:ok, result} = get_record(id)
 
-    {:ok, cached_result: result}
-  end
+  #   {:ok, cached_result: result}
+  # end
 
-  teardown_all do
-    GetTorrent.CacheSearch.teardown(:cached_searches)
-    :ok
-  end
+  # teardown_all do
+  #   GetTorrent.CacheSearch.teardown(:cached_searches)
+  #   :ok
+  # end
   ###################################
 
   def check_sorting(list) do

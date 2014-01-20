@@ -9,24 +9,24 @@ defmodule PirateBayDecodeTest do
   # import GetTorrent.HelperFunctions
 
 ############## temp test ################
-import GetTorrent.CacheSearch, only: [
-  setup: 0,
-  cache_search: 0,
-  get_record: 1
-] 
+# import GetTorrent.CacheSearch, only: [
+#   setup: 0,
+#   cache_search: 0,
+#   get_record: 1
+# ] 
 
-setup_all do
-  try do
-    setup
-  rescue
-    _error -> _error
-  end
+# setup_all do
+#   try do
+#     setup
+#   rescue
+#     _error -> _error
+#   end
 
-  {:ok, id}     = cache_search
-  {:ok, result} = get_record(id)
+#   {:ok, id}     = cache_search
+#   {:ok, result} = get_record(id)
 
-  {:ok, cached_result: result}
-end
+#   {:ok, cached_result: result}
+# end
 
 # teardown_all do
 #   GetTorrent.CacheSearch.teardown(:cached_searches)
