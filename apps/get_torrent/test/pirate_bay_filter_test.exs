@@ -10,27 +10,6 @@ defmodule PirateBayFilterTest do
   ]
   import GetTorrent.TestCache
 
-  ########### temp test #############
-  # import GetTorrent.CacheSearch, only: [
-  #   setup: 0,
-  #   cache_search: 0,
-  #   get_record: 1
-  # ] 
-
-  # setup_all do
-  #   setup
-  #   {:ok, id}     = cache_search
-  #   {:ok, result} = get_record(id)
-
-  #   {:ok, cached_result: result}
-  # end
-
-  # teardown_all do
-  #   GetTorrent.CacheSearch.teardown(:cached_searches)
-  #   :ok
-  # end
-  ###################################
-
   test "filter responses to videos only" do
     c_record = hd(:ets.lookup(:cached_searches, record_id))
     c_result = c_record.result

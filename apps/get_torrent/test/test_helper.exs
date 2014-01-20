@@ -10,7 +10,6 @@ defmodule GetTorrent.TestCache do
     {:ok, id} = cache_search
     IO.puts("ETS id is: #{id}\n")
     @id id
-    # IO.puts("@id is: #{@id}\n")
   rescue
     _error -> _error
   end

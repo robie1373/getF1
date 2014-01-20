@@ -1,43 +1,18 @@
 defmodule PirateBayDecodeTest do
-  # use ExUnit.Case, async: true
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+  # use ExUnit.Case
   import GetTorrent.PirateBayDecode, only: [
                                       decode_response: 1,
                                       to_torrent_record: 1
                                       ]
 
-  # import GetTorrent.HelperFunctions
+  import GetTorrent.TestCache
 
-############## temp test ################
-# import GetTorrent.CacheSearch, only: [
-#   setup: 0,
-#   cache_search: 0,
-#   get_record: 1
-# ] 
+  c_record = hd(:ets.lookup(:cached_searches, record_id))
+  @c_result c_record.result
 
-# setup_all do
-#   try do
-#     setup
-#   rescue
-#     _error -> _error
-#   end
-
-#   {:ok, id}     = cache_search
-#   {:ok, result} = get_record(id)
-
-#   {:ok, cached_result: result}
-# end
-
-# teardown_all do
-#   GetTorrent.CacheSearch.teardown(:cached_searches)
-#   :ok
-# end
-#########################################
- 
-  test "decode the body", meta do
-    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
-
-    decoded_result = {:ok, result}
+  test "decode the body" do
+    decoded_result = @c_result
     |> decode_response
     |> to_torrent_record
 
@@ -71,10 +46,8 @@ defmodule PirateBayDecodeTest do
     false
   end
 
-  test "byte_size gets updated, > 0", meta do
-    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
-
-    decoded_result = {:ok, result}
+  test "byte_size gets updated, > 0" do
+    decoded_result = @c_result
     |> decode_response
     |> to_torrent_record
 
@@ -82,10 +55,8 @@ defmodule PirateBayDecodeTest do
     |> test_byte_size, "byte_size was not > 0"
   end
 
-  test "byte_size gets updated, is_float", meta do
-    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
-
-    decoded_result = {:ok, result}
+  test "byte_size gets updated, is_float" do
+    decoded_result = @c_result
     |> decode_response
     |> to_torrent_record
 
@@ -93,9 +64,8 @@ defmodule PirateBayDecodeTest do
     |> test_byte_size_type, "byte_size is not an float"
   end
 
-  test "convert to records", meta do
-    CacheSearchRecord[result: {:ok, result}] = meta[:cached_result]
-    assert {:ok, result}
+  test "convert to records" do
+    assert @c_result
     |> decode_response
     |> to_torrent_record
     |> Enum.all?( fn(x) -> is_record(x, Torrent_Result) end)
